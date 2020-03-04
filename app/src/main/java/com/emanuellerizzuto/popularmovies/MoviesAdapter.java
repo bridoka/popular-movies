@@ -20,12 +20,30 @@ import java.util.List;
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesAdapterViewHolder> {
     private List<MoviesResultsParcelable> moviesResults;
 
-    public class MoviesAdapterViewHolder extends RecyclerView.ViewHolder {
+    private final MoviesAdapterOnClickHandler moviesAdapterOnClickHandler;
+
+    public interface MoviesAdapterOnClickHandler{
+        void onClick(MoviesResultsParcelable moviesResultsParcelable);
+    }
+
+    public MoviesAdapter(MoviesAdapterOnClickHandler clickHandler) {
+        moviesAdapterOnClickHandler = clickHandler;
+    }
+
+    public class MoviesAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public final ImageView ivMovies;
 
         public MoviesAdapterViewHolder(@NonNull View itemView) {
             super(itemView);
             ivMovies = itemView.findViewById(R.id.iv_movie_item);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            int adapterPosition = getAdapterPosition();
+            MoviesResultsParcelable moviesResultsParcelable = moviesResults.get(adapterPosition);
+            moviesAdapterOnClickHandler.onClick(moviesResultsParcelable);
         }
     }
 
