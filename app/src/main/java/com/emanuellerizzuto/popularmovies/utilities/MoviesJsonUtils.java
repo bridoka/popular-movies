@@ -50,7 +50,6 @@ public class MoviesJsonUtils {
                         releaseDate));
 
             }
-
             MoviesParcelable moviesParcelable = new MoviesParcelable(pageResult, totalResults, totalPages, moviesResultsParcelablesList);
             return moviesParcelable;
             //return jsonObject.getJSONArray("results").toString();

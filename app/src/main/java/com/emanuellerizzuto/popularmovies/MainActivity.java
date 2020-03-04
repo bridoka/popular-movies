@@ -1,6 +1,9 @@
 package com.emanuellerizzuto.popularmovies;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,10 +16,23 @@ import java.lang.reflect.Array;
 
 public class MainActivity extends AppCompatActivity {
 
+    private RecyclerView recyclerView;
+
+    private MoviesAdapter moviesAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        recyclerView = (RecyclerView) findViewById(R.id.rv_movies);
+        GridLayoutManager linearLayoutManager =
+                new GridLayoutManager(this, 4);
+
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setHasFixedSize(true);
+        moviesAdapter = new MoviesAdapter();
+        recyclerView.setAdapter(moviesAdapter);
         loadMoviesData();
     }
 
@@ -32,13 +48,17 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected MoviesParcelable doInBackground(Integer... params) {
-            MoviesParcelable movies = MoviesJsonUtils.getPopularMoviesFromJson(params[0]);
-            return movies;
+            if (params.length == 0) {
+                return null;
+            }
+            return MoviesJsonUtils.getPopularMoviesFromJson(params[0]);
         }
 
         @Override
         protected void onPostExecute(MoviesParcelable moviesParcelable) {
-            super.onPostExecute(moviesParcelable);
+            if (moviesParcelable != null) {
+                moviesAdapter.setMoviesResults(moviesParcelable.getMoviesResults());
+            }
         }
     }
 }
