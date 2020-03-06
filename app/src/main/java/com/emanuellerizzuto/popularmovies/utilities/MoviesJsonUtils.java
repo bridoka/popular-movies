@@ -16,8 +16,19 @@ import java.util.List;
 
 public class MoviesJsonUtils {
 
-    public static MoviesParcelable getPopularMoviesFromJson(int page) {
-        URL popularMovies = NetworkUtils.buildPopularMoviesUrl(page);
+    private static final String mostPopular = "most_popular";
+
+    private static final String topRated = "top_rated";
+
+    public static MoviesParcelable getPopularMoviesFromJson(int page, String type) {
+        URL popularMovies;
+
+        if (type == mostPopular) {
+            popularMovies = NetworkUtils.buildPopularMoviesUrl(page);
+        } else {
+            popularMovies = NetworkUtils.buildTopRatedUrl(page);
+        }
+
         try {
             String response =  NetworkUtils.getResponseFromHttpUrl(popularMovies);
             JSONObject jsonObject = new JSONObject(response);
@@ -26,7 +37,7 @@ public class MoviesJsonUtils {
             int totalResults = jsonObject.getInt("total_results");
             int totalPages = jsonObject.getInt("total_pages");
 
-            List<MoviesResultsParcelable> moviesResultsParcelablesList = new ArrayList<MoviesResultsParcelable>();
+            ArrayList<MoviesResultsParcelable> moviesResultsParcelablesList = new ArrayList<MoviesResultsParcelable>();
 
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject resultData = jsonArray.getJSONObject(i);
@@ -52,7 +63,6 @@ public class MoviesJsonUtils {
             }
             MoviesParcelable moviesParcelable = new MoviesParcelable(pageResult, totalResults, totalPages, moviesResultsParcelablesList);
             return moviesParcelable;
-            //return jsonObject.getJSONArray("results").toString();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JSONException e) {

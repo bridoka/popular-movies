@@ -3,16 +3,17 @@ package com.emanuellerizzuto.popularmovies.data;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MoviesParcelable implements Parcelable {
     int page;
     int totalResults;
     int totalPages;
-    List<MoviesResultsParcelable> moviesResult;
+    ArrayList<MoviesResultsParcelable> moviesResult;
 
     public MoviesParcelable(int page, int totalResults, int totalPages,
-                            List<MoviesResultsParcelable> resultsParcelables) {
+                            ArrayList<MoviesResultsParcelable> resultsParcelables) {
         this.page = page;
         this.totalPages = totalPages;
         this.totalResults = totalResults;
@@ -51,7 +52,7 @@ public class MoviesParcelable implements Parcelable {
         dest.writeTypedList(moviesResult);
     }
 
-    public List<MoviesResultsParcelable> getMoviesResults() {
+    public ArrayList<MoviesResultsParcelable> getMoviesResults() {
         return this.moviesResult;
     }
 }
