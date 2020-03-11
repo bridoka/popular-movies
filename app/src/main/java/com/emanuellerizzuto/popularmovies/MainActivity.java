@@ -43,10 +43,10 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
         setContentView(R.layout.activity_main);
 
         recyclerView = (RecyclerView) findViewById(R.id.rv_movies);
-        GridLayoutManager linearLayoutManager =
-                new GridLayoutManager(this, 4);
+        GridLayoutManager gridLayoutManager =
+                new GridLayoutManager(this, 2);
 
-        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setHasFixedSize(true);
         moviesAdapter = new MoviesAdapter(this);
         recyclerView.setAdapter(moviesAdapter);
@@ -71,7 +71,8 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
         intentToStartActivity.putExtra("overview",moviesResultsParcelable.getOverview());
         intentToStartActivity.putExtra("releaseDate", moviesResultsParcelable.getReleaseDate());
         intentToStartActivity.putExtra("posterPath", moviesResultsParcelable.getPosterPath());
-        intentToStartActivity.putExtra("voteAverage", moviesResultsParcelable.getVoteAverage());
+        intentToStartActivity.putExtra("backdropPath", moviesResultsParcelable.getBackdropPath());
+        intentToStartActivity.putExtra("voteAverage", String.valueOf(moviesResultsParcelable.getVoteAverage()));
         startActivity(intentToStartActivity);
     }
 

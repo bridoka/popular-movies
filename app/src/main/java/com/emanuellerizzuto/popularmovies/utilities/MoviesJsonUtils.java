@@ -12,7 +12,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 
 public class MoviesJsonUtils {
 
@@ -31,6 +30,7 @@ public class MoviesJsonUtils {
 
         try {
             String response =  NetworkUtils.getResponseFromHttpUrl(popularMovies);
+            Log.d("response", response);
             JSONObject jsonObject = new JSONObject(response);
             JSONArray jsonArray = jsonObject.getJSONArray("results");
             int pageResult = jsonObject.getInt("page");
@@ -44,6 +44,7 @@ public class MoviesJsonUtils {
                 double popularity = resultData.getDouble("popularity");
                 int voteCount = resultData.getInt("vote_count");
                 String posterPath = resultData.getString("poster_path");
+                String backdropPath = resultData.getString("backdrop_path");
                 int id = resultData.getInt("id");
                 String title = resultData.getString("title");
                 double voteAverage = resultData.getDouble("vote_average");
@@ -54,6 +55,7 @@ public class MoviesJsonUtils {
                         popularity,
                         voteCount,
                         posterPath,
+                        backdropPath,
                         id,
                         title,
                         voteAverage,

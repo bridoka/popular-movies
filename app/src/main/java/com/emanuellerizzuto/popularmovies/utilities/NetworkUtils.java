@@ -56,17 +56,19 @@ public class NetworkUtils {
     public static String getResponseFromHttpUrl(URL url) throws IOException {
 
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+        InputStream inputStream = urlConnection.getInputStream();
+        Scanner scanner = new Scanner(inputStream);
         try {
-            InputStream inputStream = urlConnection.getInputStream();
-            Scanner scanner = new Scanner(inputStream);
             scanner.useDelimiter("\\A");
             boolean hasNext = scanner.hasNext();
             if (hasNext) {
                 return scanner.next();
             } else {
+                scanner.close();
                 return null;
             }
         } finally {
+            scanner.close();
             urlConnection.disconnect();
         }
     }

@@ -10,6 +10,7 @@ public class MoviesResultsParcelable implements Parcelable {
     double popularity;
     int voteCount;
     String posterPath;
+    String backdropPath;
     int id;
     String title;
     double voteAverage;
@@ -19,6 +20,7 @@ public class MoviesResultsParcelable implements Parcelable {
     public MoviesResultsParcelable(double popularity,
                                    int voteCount,
                                    String posterPath,
+                                   String backdropPath,
                                    int id,
                                    String title,
                                    double voteAverage,
@@ -28,6 +30,7 @@ public class MoviesResultsParcelable implements Parcelable {
         this.popularity = popularity;
         this.voteCount = voteCount;
         this.posterPath = posterPath;
+        this.backdropPath = backdropPath;
         this.id = id;
         this.title = title;
         this.voteAverage = voteAverage;
@@ -40,6 +43,7 @@ public class MoviesResultsParcelable implements Parcelable {
         popularity = in.readDouble();
         voteCount = in.readInt();
         posterPath = in.readString();
+        backdropPath = in.readString();
         id = in.readInt();
         title = in.readString();
         voteAverage = in.readDouble();
@@ -69,6 +73,7 @@ public class MoviesResultsParcelable implements Parcelable {
         dest.writeDouble(popularity);
         dest.writeInt(voteCount);
         dest.writeString(posterPath);
+        dest.writeString(backdropPath);
         dest.writeInt(id);
         dest.writeString(title);
         dest.writeDouble(voteAverage);
@@ -88,13 +93,13 @@ public class MoviesResultsParcelable implements Parcelable {
         return posterPath;
     }
 
+    public String getBackdropPath() {return backdropPath; }
+
     public int getId() {
         return id;
     }
 
-    public String getTitle() {
-        return title;
-    }
+    public String getTitle() { return title; }
 
     public double getVoteAverage() {
         return voteAverage;
