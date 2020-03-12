@@ -30,7 +30,6 @@ public class MoviesJsonUtils {
 
         try {
             String response =  NetworkUtils.getResponseFromHttpUrl(popularMovies);
-            Log.d("response", response);
             JSONObject jsonObject = new JSONObject(response);
             JSONArray jsonArray = jsonObject.getJSONArray("results");
             int pageResult = jsonObject.getInt("page");
