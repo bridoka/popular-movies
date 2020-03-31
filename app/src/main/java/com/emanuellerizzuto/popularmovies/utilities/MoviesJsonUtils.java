@@ -1,7 +1,5 @@
 package com.emanuellerizzuto.popularmovies.utilities;
 
-import android.util.Log;
-
 import com.emanuellerizzuto.popularmovies.data.MoviesParcelable;
 import com.emanuellerizzuto.popularmovies.data.MoviesResultsParcelable;
 
@@ -17,12 +15,9 @@ public class MoviesJsonUtils {
 
     private static final String mostPopular = "most_popular";
 
-    private static final String topRated = "top_rated";
-
     public static MoviesParcelable getPopularMoviesFromJson(int page, String type) {
         URL popularMovies;
-
-        if (type == mostPopular) {
+        if (type.equals(mostPopular)) {
             popularMovies = NetworkUtils.buildPopularMoviesUrl(page);
         } else {
             popularMovies = NetworkUtils.buildTopRatedUrl(page);

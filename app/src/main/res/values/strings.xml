@@ -2,4 +2,12 @@
     <string name="app_name">Popular Movies</string>
     <string name="most_popular">Most Popular</string>
     <string name="top_rated">Top Rated</string>
+    <string name="sort_order_key">sort_order</string>
+    <string name="sort_order_title">Sort Order</string>
+
+    <string name="most_popular_label">Most Popular</string>
+    <string name="top_rated_label">Top Rated</string>
+    <string name="most_popular_option" translatable="false">most_popular</string>
+    <string name="top_rated_option" translatable="false">top_rated</string>
+    <string name="settings">Settings</string>
 </resources>
