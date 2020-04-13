@@ -3,6 +3,8 @@ package com.emanuellerizzuto.popularmovies;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.AsyncTaskLoader;
 import androidx.loader.content.Loader;
@@ -30,7 +32,6 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
         implements MoviesAdapter.MoviesAdapterOnClickHandler,
-        LoaderManager.LoaderCallbacks<MoviesParcelable>,
         SharedPreferences.OnSharedPreferenceChangeListener {
 
     private RecyclerView recyclerView;
@@ -42,6 +43,8 @@ public class MainActivity extends AppCompatActivity
     private static boolean PREFERENCES_HAVE_BEEN_UPDATED = false;
 
     private static final int LOAD_ID = 0;
+
+    private MovieViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,22 +60,17 @@ public class MainActivity extends AppCompatActivity
         moviesAdapter = new MoviesAdapter(this);
         recyclerView.setAdapter(moviesAdapter);
 
-        if (savedInstanceState != null && savedInstanceState.containsKey("movies")) {
-            moviesResultsParcelableList = savedInstanceState.getParcelableArrayList("movies");
-        }
-
-        String orderType = MoviesPreferences.getSortOrder(this);
-
-        int loaderId = LOAD_ID;
-
-        LoaderManager.LoaderCallbacks<MoviesParcelable> callback = MainActivity.this;
-        Bundle bundleForLoader = new Bundle();
-        bundleForLoader.putString("type", orderType);
-        getSupportLoaderManager().initLoader(loaderId, bundleForLoader, callback);
-
         PreferenceManager.getDefaultSharedPreferences(this)
                 .registerOnSharedPreferenceChangeListener(this);
 
+        this.viewModel = ViewModelProviders.of(this).get(MovieViewModel.class);
+
+        this.viewModel.getMoviesResultsParcelableList().observe(this, new Observer<ArrayList<MoviesResultsParcelable>>() {
+            @Override
+            public void onChanged(ArrayList<MoviesResultsParcelable> moviesResultsParcelables) {
+                moviesAdapter.setMoviesResults(moviesResultsParcelables);
+            }
+        });
     }
 
     @Override
@@ -97,67 +95,15 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
-
         if (PREFERENCES_HAVE_BEEN_UPDATED) {
-
-            moviesAdapter.setMoviesResults(null);
             restartLoader();
-
             PREFERENCES_HAVE_BEEN_UPDATED = false;
         }
     }
 
     private void restartLoader() {
-        int loaderId = LOAD_ID;
-        Bundle bundleForLoader = new Bundle();
-        bundleForLoader.putString("type", MoviesPreferences.getSortOrder(this));
-        getSupportLoaderManager().restartLoader(loaderId, bundleForLoader, this);
-    }
-
-    @NonNull
-    @Override
-    public Loader<MoviesParcelable> onCreateLoader(int id, @Nullable final Bundle args) {
-        return new AsyncTaskLoader<MoviesParcelable>(this) {
-            MoviesParcelable moviesParcelableData = null;
-            @Nullable
-            @Override
-            public MoviesParcelable loadInBackground() {
-                String orderType = args.getString("type");
-                if (orderType == null) {
-                    orderType = "top_rated";
-                }
-                return MoviesJsonUtils.getPopularMoviesFromJson(1, orderType);
-
-            }
-
-            @Override
-            protected void onStartLoading() {
-                if (moviesParcelableData != null) {
-                    deliverResult(moviesParcelableData);
-                } else {
-                    forceLoad();
-                }
-            }
-
-            @Override
-            public void deliverResult(@Nullable MoviesParcelable data) {
-                moviesParcelableData = data;
-                super.deliverResult(data);
-            }
-        };
-    }
-
-    @Override
-    public void onLoadFinished(@NonNull Loader<MoviesParcelable> loader, MoviesParcelable moviesParcelable) {
-        if (moviesParcelable != null) {
-            moviesResultsParcelableList = moviesParcelable.getMoviesResults();
-        }
-        moviesAdapter.setMoviesResults(moviesResultsParcelableList);
-    }
-
-    @Override
-    public void onLoaderReset(@NonNull Loader<MoviesParcelable> loader) {
-
+        moviesAdapter.setMoviesResults(null);
+        this.viewModel.executeTask();
     }
 
     @Override
@@ -178,12 +124,6 @@ public class MainActivity extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putParcelableArrayList("movies", moviesResultsParcelableList);
-        super.onSaveInstanceState(outState);
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.emanuellerizzuto.popularmovies.config;
 
 public class Config {
-    public static final String API_KEY = "";
+    public static final String API_KEY = "3bcb5a896b5d645e3d27a0b1283915a1";
 
     public static final String LANGUAGE = "en_US";
 

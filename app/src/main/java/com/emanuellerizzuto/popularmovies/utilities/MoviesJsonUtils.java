@@ -15,7 +15,7 @@ public class MoviesJsonUtils {
 
     private static final String mostPopular = "most_popular";
 
-    public static MoviesParcelable getPopularMoviesFromJson(int page, String type) {
+    public static MoviesParcelable getMoviesFromJson(int page, String type) {
         URL popularMovies;
         if (type.equals(mostPopular)) {
             popularMovies = NetworkUtils.buildPopularMoviesUrl(page);
