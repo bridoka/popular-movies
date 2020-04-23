@@ -2,6 +2,7 @@ package com.emanuellerizzuto.popularmovies.utilities;
 
 import com.emanuellerizzuto.popularmovies.data.MoviesParcelable;
 import com.emanuellerizzuto.popularmovies.data.MoviesResultsParcelable;
+import com.emanuellerizzuto.popularmovies.database.MovieEntity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -10,6 +11,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MoviesJsonUtils {
 
@@ -65,5 +67,28 @@ public class MoviesJsonUtils {
             e.printStackTrace();
         }
         return null ;
+    }
+
+    public static MoviesParcelable getMoviesFromList(List<MovieEntity> movies) {
+        ArrayList<MoviesResultsParcelable> moviesResultsParcelablesList = new ArrayList<MoviesResultsParcelable>();
+
+        if (movies == null) {
+            return null;
+        }
+
+        for(int i = 0 ; i < movies.size(); i++) {
+            moviesResultsParcelablesList.add(new MoviesResultsParcelable(
+                    movies.get(i).getPopularity(),
+                    movies.get(i).getVoteCount(),
+                    movies.get(i).getPosterPath(),
+                    movies.get(i).getBackdropPath(),
+                    movies.get(i).getId(),
+                    movies.get(i).getTitle(),
+                    movies.get(i).getVoteAverage(),
+                    movies.get(i).getOverview(),
+                    movies.get(i).getReleaseDate()));
+        }
+        MoviesParcelable moviesParcelable = new MoviesParcelable(movies.size(), movies.size(), 1, moviesResultsParcelablesList);
+        return moviesParcelable;
     }
 }

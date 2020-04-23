@@ -1,13 +1,9 @@
 package com.emanuellerizzuto.popularmovies;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.loader.app.LoaderManager;
-import androidx.loader.content.AsyncTaskLoader;
-import androidx.loader.content.Loader;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,18 +11,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Movie;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import com.emanuellerizzuto.popularmovies.data.MoviesParcelable;
-import com.emanuellerizzuto.popularmovies.data.MoviesPreferences;
 import com.emanuellerizzuto.popularmovies.data.MoviesResultsParcelable;
-import com.emanuellerizzuto.popularmovies.utilities.MoviesJsonUtils;
 
 import java.util.ArrayList;
 
@@ -65,6 +55,8 @@ public class MainActivity extends AppCompatActivity
 
         this.viewModel = ViewModelProviders.of(this).get(MovieViewModel.class);
 
+        final MovieViewModel vm = this.viewModel;
+
         this.viewModel.getMoviesResultsParcelableList().observe(this, new Observer<ArrayList<MoviesResultsParcelable>>() {
             @Override
             public void onChanged(ArrayList<MoviesResultsParcelable> moviesResultsParcelables) {
@@ -78,12 +70,14 @@ public class MainActivity extends AppCompatActivity
         Context context = this;
         Class destination = MovieDetailActivity.class;
         Intent intentToStartActivity = new Intent(context, destination);
+        intentToStartActivity.putExtra("id", moviesResultsParcelable.getId());
         intentToStartActivity.putExtra("title",moviesResultsParcelable.getTitle());
         intentToStartActivity.putExtra("overview",moviesResultsParcelable.getOverview());
         intentToStartActivity.putExtra("releaseDate", moviesResultsParcelable.getReleaseDate());
         intentToStartActivity.putExtra("posterPath", moviesResultsParcelable.getPosterPath());
         intentToStartActivity.putExtra("backdropPath", moviesResultsParcelable.getBackdropPath());
-        intentToStartActivity.putExtra("voteAverage", String.valueOf(moviesResultsParcelable.getVoteAverage()));
+        intentToStartActivity.putExtra("popularity", moviesResultsParcelable.getPopularity());
+        intentToStartActivity.putExtra("voteAverage", moviesResultsParcelable.getVoteAverage());
         startActivity(intentToStartActivity);
     }
 

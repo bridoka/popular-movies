@@ -2,12 +2,21 @@
     <string name="app_name">Popular Movies</string>
     <string name="most_popular">Most Popular</string>
     <string name="top_rated">Top Rated</string>
+    <string name="favorite">Top Rated</string>
     <string name="sort_order_key">sort_order</string>
     <string name="sort_order_title">Sort Order</string>
 
     <string name="most_popular_label">Most Popular</string>
     <string name="top_rated_label">Top Rated</string>
+    <string name="favorite_label">Favorite</string>
     <string name="most_popular_option" translatable="false">most_popular</string>
     <string name="top_rated_option" translatable="false">top_rated</string>
+    <string name="favorite_option" translatable="false">favorite</string>
     <string name="settings">Settings</string>
+    <string name="favorite_button_label">Favorite</string>
+    <string name="remove_favorite_button_label">Remove Favorite</string>
+    <string name="reviews_label">Reviews</string>
+    <string name="author_label">Author:</string>
+    <string name="trailer_content_description">Trailer</string>
+    <string name="trailers_label">Trailers</string>
 </resources>
