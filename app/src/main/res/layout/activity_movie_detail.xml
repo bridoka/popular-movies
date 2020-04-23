@@ -80,8 +80,7 @@
             android:fontFamily="sans-serif-black"
             android:padding="16dp"
             android:textAlignment="inherit"
-            android:textSize="16sp"
-            tools:text="asdasdfasdfasdfa asdhasduahsudh asd iahs udhaisu duiashd uahsd ua"/>
+            android:textSize="16sp"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -93,7 +92,7 @@
             android:textColor="@android:color/white"
             android:background="@android:color/darker_gray"
             android:text="@string/trailers_label"
-            tools:text="Trailers"/>
+            tools:text="@string/trailers_label"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_movie_videos"
@@ -110,7 +109,7 @@
             android:textColor="@android:color/white"
             android:background="@android:color/darker_gray"
             android:text="@string/reviews_label"
-            tools:text="Reviews"/>
+            tools:text="@string/reviews_label"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_movie_reviews"

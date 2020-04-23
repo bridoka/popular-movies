@@ -30,7 +30,7 @@
             android:textAlignment="inherit"
             android:textSize="16sp"
             android:contentDescription="@string/trailer_content_description"
-            tools:text="Trailer"/>
+            tools:text="@string/trailer_content_description"/>
     </LinearLayout>
 
     <View

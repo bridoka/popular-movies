@@ -22,7 +22,7 @@
             android:textAlignment="inherit"
             android:textSize="16sp"
             android:text="@string/author_label"
-            tools:text="Author:"/>
+            tools:text="@string/author_label"/>
 
         <TextView
             android:paddingStart="8dp"
